@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Romantic — Rust Plugins</title>
+<title>Romantic — Rust Plugin Developer</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -11,7 +11,7 @@
 
 body {
   font-family: 'Inter', -apple-system, sans-serif;
-  background: #0a0a0a;
+  background: #09090b;
   color: #f0f0f0;
   overflow-x: hidden;
 }
@@ -20,33 +20,33 @@ body {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 60px 60px;
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 64px 64px;
   z-index: 0;
   pointer-events: none;
 }
 
 .bg-glow {
   position: fixed;
-  width: 600px;
-  height: 600px;
+  width: 700px;
+  height: 700px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(200,200,200,0.04) 0%, transparent 70%);
+  background: radial-gradient(circle at 30% 50%, rgba(180,180,180,0.04) 0%, transparent 60%);
   top: -200px;
-  right: -200px;
+  right: -100px;
   z-index: 0;
   pointer-events: none;
 }
 
 .bg-glow-2 {
   position: fixed;
-  width: 500px;
-  height: 500px;
+  width: 600px;
+  height: 600px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(200,200,200,0.03) 0%, transparent 70%);
-  bottom: -150px;
-  left: -150px;
+  background: radial-gradient(circle at 70% 50%, rgba(180,180,180,0.03) 0%, transparent 60%);
+  bottom: -200px;
+  left: -100px;
   z-index: 0;
   pointer-events: none;
 }
@@ -67,100 +67,123 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 120px 0 80px;
+  padding: 100px 0 60px;
 }
 
-.hero-badge {
-  display: inline-flex;
+.hero-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 18px;
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 100px;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
-  margin-bottom: 32px;
+  justify-content: center;
+  font-size: 36px;
+  margin-bottom: 24px;
   animation: fadeSlideUp 0.8s ease forwards;
   opacity: 0;
   transform: translateY(20px);
 }
 
-.hero-badge::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #7c7c7c;
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-
-@keyframes pulse-dot {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
-
 .hero h1 {
-  font-size: clamp(48px, 8vw, 96px);
+  font-size: clamp(40px, 6vw, 72px);
   font-weight: 900;
-  letter-spacing: -3px;
-  line-height: 1;
-  margin-bottom: 12px;
+  letter-spacing: -2px;
+  line-height: 1.05;
+  margin-bottom: 8px;
   animation: fadeSlideUp 0.8s ease 0.1s forwards;
   opacity: 0;
   transform: translateY(20px);
 }
 
 .hero h1 .accent {
-  background: linear-gradient(135deg, #d4d4d4 0%, #888 100%);
+  background: linear-gradient(135deg, #e0e0e0 0%, #888 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.hero-sub {
-  font-size: clamp(16px, 2vw, 22px);
+.hero-title {
+  font-size: 18px;
   font-weight: 300;
   color: rgba(255,255,255,0.35);
-  letter-spacing: 2px;
-  margin-bottom: 48px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
   animation: fadeSlideUp 0.8s ease 0.2s forwards;
   opacity: 0;
   transform: translateY(20px);
 }
 
-.hero-plugins {
+.hero-links {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  gap: 16px;
   justify-content: center;
-  margin-bottom: 64px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
   animation: fadeSlideUp 0.8s ease 0.3s forwards;
   opacity: 0;
   transform: translateY(20px);
 }
 
-.hero-plugins span {
-  padding: 8px 20px;
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 8px;
-  font-size: 13px;
+.hero-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 100px;
+  font-size: 14px;
   font-weight: 500;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: all 0.3s ease;
   background: rgba(255,255,255,0.03);
 }
 
-.hero-scroll {
+.hero-links a:hover {
+  border-color: rgba(255,255,255,0.2);
+  color: #fff;
+  background: rgba(255,255,255,0.06);
+}
+
+.hero-links a .icon { font-size: 16px; }
+
+.hero-stats {
+  display: flex;
+  gap: 40px;
   animation: fadeSlideUp 0.8s ease 0.4s forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.stat { text-align: center; }
+
+.stat-num {
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+.hero-scroll {
+  margin-top: 60px;
+  animation: fadeSlideUp 0.8s ease 0.5s forwards;
   opacity: 0;
 }
 
 .scroll-indicator {
-  width: 24px;
-  height: 40px;
-  border: 2px solid rgba(255,255,255,0.15);
+  width: 22px;
+  height: 36px;
+  border: 2px solid rgba(255,255,255,0.12);
   border-radius: 12px;
   margin: 0 auto;
   position: relative;
@@ -169,11 +192,11 @@ body {
 .scroll-indicator::after {
   content: '';
   position: absolute;
-  width: 4px;
-  height: 8px;
-  background: rgba(255,255,255,0.4);
+  width: 3px;
+  height: 7px;
+  background: rgba(255,255,255,0.35);
   border-radius: 2px;
-  top: 8px;
+  top: 7px;
   left: 50%;
   transform: translateX(-50%);
   animation: scroll-down 2s ease-in-out infinite;
@@ -181,33 +204,67 @@ body {
 
 @keyframes scroll-down {
   0% { opacity: 1; transform: translateX(-50%) translateY(0); }
-  100% { opacity: 0; transform: translateX(-50%) translateY(12px); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(10px); }
 }
 
 /* Section */
-.section-header {
-  text-align: center;
-  margin-bottom: 60px;
-}
-
-.section-header h2 {
-  font-size: 36px;
-  font-weight: 800;
-  letter-spacing: -1px;
-  margin-bottom: 12px;
-}
-
-.section-header p {
-  color: rgba(255,255,255,0.4);
-  font-size: 16px;
-  font-weight: 300;
-}
-
-/* Plugins Grid */
-.plugins-section {
+.section {
   padding: 100px 0;
 }
 
+.section-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-header h2 {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+.section-header p {
+  color: rgba(255,255,255,0.35);
+  font-size: 15px;
+  font-weight: 300;
+}
+
+/* About */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.about-text p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.55);
+  font-weight: 300;
+  margin-bottom: 16px;
+}
+
+.about-text strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skills-list span {
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Plugins Grid */
 .plugins-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -215,7 +272,7 @@ body {
 }
 
 .plugin-card {
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.06);
   border-radius: 16px;
   padding: 32px;
@@ -229,51 +286,38 @@ body {
   position: absolute;
   inset: 0;
   border-radius: 16px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%);
+  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 50%);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .plugin-card:hover {
-  border-color: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.12);
   transform: translateY(-4px);
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.035);
 }
 
-.plugin-card:hover::before {
-  opacity: 1;
-}
+.plugin-card:hover::before { opacity: 1; }
 
 .plugin-card .icon {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
-  margin-bottom: 20px;
+  font-size: 20px;
+  margin-bottom: 16px;
   position: relative;
   z-index: 1;
 }
 
-.plugin-card .icon.skinbox { background: rgba(180,180,180,0.1); color: #ccc; }
-.plugin-card .icon.underwear-sel { background: rgba(220,220,220,0.1); color: #eee; }
-.plugin-card .icon.underwear-skins { background: rgba(160,160,160,0.1); color: #bbb; }
-.plugin-card .icon.duel { background: rgba(200,200,200,0.1); color: #ddd; }
+.plugin-card .icon.purple { background: rgba(180,180,180,0.08); color: #ccc; }
 
 .plugin-card h3 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
-  margin-bottom: 4px;
-  position: relative;
-  z-index: 1;
-}
-
-.plugin-card .author {
-  font-size: 12px;
-  color: rgba(255,255,255,0.3);
-  margin-bottom: 12px;
+  margin-bottom: 2px;
   position: relative;
   z-index: 1;
 }
@@ -284,17 +328,17 @@ body {
   border-radius: 6px;
   font-size: 11px;
   font-weight: 600;
-  background: rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.4);
-  margin-bottom: 14px;
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 12px;
   position: relative;
   z-index: 1;
 }
 
 .plugin-card p {
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.45);
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.7;
   font-weight: 300;
   position: relative;
   z-index: 1;
@@ -304,7 +348,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: 16px;
+  margin-top: 14px;
   position: relative;
   z-index: 1;
 }
@@ -318,51 +362,41 @@ body {
   color: rgba(255,255,255,0.3);
 }
 
-/* Features */
-.features-section {
-  padding: 100px 0;
-  border-top: 1px solid rgba(255,255,255,0.04);
+/* Contact */
+.contact-links {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 32px;
+.contact-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background: rgba(255,255,255,0.02);
 }
 
-.feature-item {
-  text-align: center;
-  padding: 32px 20px;
-}
-
-.feature-item .num {
-  font-size: 42px;
-  font-weight: 900;
-  background: linear-gradient(135deg, #d4d4d4 0%, #666 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 8px;
-}
-
-.feature-item h4 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.feature-item p {
-  font-size: 13px;
-  color: rgba(255,255,255,0.35);
-  font-weight: 300;
+.contact-links a:hover {
+  border-color: rgba(255,255,255,0.2);
+  color: #fff;
+  background: rgba(255,255,255,0.05);
 }
 
 /* Footer */
 footer {
   border-top: 1px solid rgba(255,255,255,0.04);
-  padding: 40px 0;
+  padding: 32px 0;
   text-align: center;
-  color: rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.15);
   font-size: 13px;
   font-weight: 300;
 }
@@ -374,8 +408,8 @@ footer {
 
 .reveal {
   opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.8s ease;
+  transform: translateY(24px);
+  transition: all 0.7s ease;
 }
 
 .reveal.visible {
@@ -383,13 +417,10 @@ footer {
   transform: translateY(0);
 }
 
-@media (max-width: 640px) {
-  .plugins-grid {
-    grid-template-columns: 1fr;
-  }
-  .hero h1 {
-    letter-spacing: -1px;
-  }
+@media (max-width: 700px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .plugins-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 24px; }
 }
 </style>
 </head>
@@ -402,12 +433,27 @@ footer {
 <!-- Hero -->
 <section class="hero">
   <div class="container">
-    <div class="hero-badge">Collection 2026</div>
-    <h1>Romantic<br><span class="accent">Plugins</span></h1>
-    <p class="hero-sub">Rust Oxide плагины с современным UI</p>
-    <div class="hero-plugins">
-      <span>UnderwearSkins</span>
-      <span>TeleportPlugin</span>
+    <div class="hero-avatar">R</div>
+    <h1>Rust <span class="accent">Plugin Developer</span></h1>
+    <p class="hero-title">Romantic</p>
+    <div class="hero-links">
+      <a href="https://codefling.com/romantic" target="_blank"><span class="icon">⚡</span> Codefling</a>
+      <a href="https://github.com/romagorbun2000-arch" target="_blank"><span class="icon">⎇</span> GitHub</a>
+      <a href="#contact"><span class="icon">✉</span> Contact</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Плагина</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Качество</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2026</div>
+        <div class="stat-label">Active</div>
+      </div>
     </div>
     <div class="hero-scroll">
       <div class="scroll-indicator"></div>
@@ -415,39 +461,74 @@ footer {
   </div>
 </section>
 
+<!-- About -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2>Обо мне</h2>
+      <p>Разработка плагинов для Rust Oxide</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          Разрабатываю плагины для Rust с <strong>чистым кодом</strong>,
+          современным UI и плавными анимациями. Каждый плагин проходит
+          проверку на совместимость с актуальными билдами Oxide.
+        </p>
+        <p>
+          Специализируюсь на <strong>интерфейсах</strong> — от менеджеров скинов
+          до систем телепортации. В приоритете — UX, производительность и
+          поддержка.
+        </p>
+      </div>
+      <div class="reveal">
+        <div class="skills-list">
+          <span>C#</span>
+          <span>Oxide/uMod</span>
+          <span>Rust UI</span>
+          <span>Cui API</span>
+          <span>ImageLibrary</span>
+          <span>JSON</span>
+          <span>Newtonsoft</span>
+          <span>Git</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Plugins -->
-<section class="plugins-section" id="plugins">
+<section class="section" id="plugins">
   <div class="container">
     <div class="section-header reveal">
       <h2>Плагины</h2>
-      <p>Продуманный UX и чистый код</p>
+      <p>Готовые решения для твоего сервера</p>
     </div>
     <div class="plugins-grid">
 
       <div class="plugin-card reveal">
-        <div class="icon underwear-skins">👕</div>
+        <div class="icon purple">👕</div>
         <h3>UnderwearSkins</h3>
-        <div class="author">Marat</div>
         <div class="version">1.2.0</div>
-        <p>Менеджер нижнего белья с минималистичным интерфейсом, привязкой к слотам и поддержкой кастомных изображений.</p>
+        <p>Менеджер нижнего белья с минималистичным UI, привязкой к слотам и поддержкой кастомных изображений через ImageLibrary.</p>
         <div class="tags">
-          <span>Minimal</span>
+          <span>UI</span>
           <span>Underwear</span>
-          <span>Custom Images</span>
+          <span>ImageLibrary</span>
+          <span>Oxide</span>
         </div>
       </div>
 
       <div class="plugin-card reveal">
-        <div class="icon teleport">📍</div>
+        <div class="icon purple">📍</div>
         <h3>TeleportPlugin</h3>
-        <div class="author">YourName</div>
         <div class="version">1.0.0</div>
-        <p>Система телепортации между игроками: /tpr, /tpa, /tpdeny. С поддержкой кулдауна, задержки и блокировки в бою.</p>
+        <p>Система телепортации между игроками: /tpr, /tpa, /tpdeny. Со встроенным кулдауном, задержкой и защитой от боя.</p>
         <div class="tags">
-          <span>TP</span>
           <span>Teleport</span>
-          <span>Tpa</span>
+          <span>TPA</span>
           <span>Cooldown</span>
+          <span>Oxide</span>
         </div>
       </div>
 
@@ -455,34 +536,17 @@ footer {
   </div>
 </section>
 
-<!-- Features -->
-<section class="features-section" id="features">
+<!-- Contact -->
+<section class="section" id="contact">
   <div class="container">
     <div class="section-header reveal">
-      <h2>Почему Romantic?</h2>
-      <p>Внимание к деталям в каждом плагине</p>
+      <h2>Связаться</h2>
+      <p>По вопросам покупки, заказа или поддержки</p>
     </div>
-    <div class="features-grid">
-      <div class="feature-item reveal">
-        <div class="num">01</div>
-        <h4>Современный UI</h4>
-        <p>Анимации, плавные переходы, продуманная сетка и акцентные цвета</p>
-      </div>
-      <div class="feature-item reveal">
-        <div class="num">02</div>
-        <h4>Чистый код</h4>
-        <p>Структура, читаемость, Oxide API — код, который легко поддерживать</p>
-      </div>
-      <div class="feature-item reveal">
-        <div class="num">03</div>
-        <h4>ImageLibrary</h4>
-        <p>Кеширование изображений, предзагрузка, поддержка PNG — всё для красивого UI</p>
-      </div>
-      <div class="feature-item reveal">
-        <div class="num">04</div>
-        <h4>Поддержка</h4>
-        <p>Актуальные версии, фиксы под последние билды Rust/Oxide</p>
-      </div>
+    <div class="contact-links reveal">
+      <a href="https://t.me/romagorbun2000_arch" target="_blank">✉ Telegram</a>
+      <a href="https://codefling.com/romantic" target="_blank">⚡ Codefling</a>
+      <a href="mailto:contact@romantic.dev">✉ Email</a>
     </div>
   </div>
 </section>
@@ -490,12 +554,11 @@ footer {
 <!-- Footer -->
 <footer>
   <div class="container">
-    <p>Romantic Plugins &mdash; Rust Oxide &copy; 2026</p>
+    <p>Romantic &mdash; Rust Oxide Plugin Developer &copy; 2026</p>
   </div>
 </footer>
 
 <script>
-// Scroll reveal
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
