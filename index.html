@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Romantic — Rust Plugins</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #0a0a0a;
+  color: #f0f0f0;
+  overflow-x: hidden;
+}
+
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-glow {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,200,200,0.04) 0%, transparent 70%);
+  top: -200px;
+  right: -200px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-glow-2 {
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,200,200,0.03) 0%, transparent 70%);
+  bottom: -150px;
+  left: -150px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 120px 0 80px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 32px;
+  animation: fadeSlideUp 0.8s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.hero-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #7c7c7c;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.hero h1 {
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 900;
+  letter-spacing: -3px;
+  line-height: 1;
+  margin-bottom: 12px;
+  animation: fadeSlideUp 0.8s ease 0.1s forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.hero h1 .accent {
+  background: linear-gradient(135deg, #d4d4d4 0%, #888 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: clamp(16px, 2vw, 22px);
+  font-weight: 300;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 2px;
+  margin-bottom: 48px;
+  animation: fadeSlideUp 0.8s ease 0.2s forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.hero-plugins {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 64px;
+  animation: fadeSlideUp 0.8s ease 0.3s forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.hero-plugins span {
+  padding: 8px 20px;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.03);
+}
+
+.hero-scroll {
+  animation: fadeSlideUp 0.8s ease 0.4s forwards;
+  opacity: 0;
+}
+
+.scroll-indicator {
+  width: 24px;
+  height: 40px;
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.scroll-indicator::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 8px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 2px;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scroll-down 2s ease-in-out infinite;
+}
+
+@keyframes scroll-down {
+  0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(12px); }
+}
+
+/* Section */
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-header h2 {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 12px;
+}
+
+.section-header p {
+  color: rgba(255,255,255,0.4);
+  font-size: 16px;
+  font-weight: 300;
+}
+
+/* Plugins Grid */
+.plugins-section {
+  padding: 100px 0;
+}
+
+.plugins-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.plugin-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 32px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.plugin-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.plugin-card:hover {
+  border-color: rgba(255,255,255,0.15);
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.05);
+}
+
+.plugin-card:hover::before {
+  opacity: 1;
+}
+
+.plugin-card .icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.plugin-card .icon.skinbox { background: rgba(180,180,180,0.1); color: #ccc; }
+.plugin-card .icon.underwear-sel { background: rgba(220,220,220,0.1); color: #eee; }
+.plugin-card .icon.underwear-skins { background: rgba(160,160,160,0.1); color: #bbb; }
+.plugin-card .icon.duel { background: rgba(200,200,200,0.1); color: #ddd; }
+
+.plugin-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.plugin-card .author {
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.plugin-card .version {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.plugin-card p {
+  color: rgba(255,255,255,0.5);
+  font-size: 14px;
+  line-height: 1.6;
+  font-weight: 300;
+  position: relative;
+  z-index: 1;
+}
+
+.plugin-card .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.plugin-card .tags span {
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.3);
+}
+
+/* Features */
+.features-section {
+  padding: 100px 0;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 32px;
+}
+
+.feature-item {
+  text-align: center;
+  padding: 32px 20px;
+}
+
+.feature-item .num {
+  font-size: 42px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #d4d4d4 0%, #666 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+}
+
+.feature-item h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.feature-item p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.35);
+  font-weight: 300;
+}
+
+/* Footer */
+footer {
+  border-top: 1px solid rgba(255,255,255,0.04);
+  padding: 40px 0;
+  text-align: center;
+  color: rgba(255,255,255,0.2);
+  font-size: 13px;
+  font-weight: 300;
+}
+
+/* Animations */
+@keyframes fadeSlideUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  .plugins-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero h1 {
+    letter-spacing: -1px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<div class="bg-glow-2"></div>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">Collection 2026</div>
+    <h1>Romantic<br><span class="accent">Plugins</span></h1>
+    <p class="hero-sub">Rust Oxide плагины с современным UI</p>
+    <div class="hero-plugins">
+      <span>UnderwearSkins</span>
+      <span>TeleportPlugin</span>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-indicator"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Plugins -->
+<section class="plugins-section" id="plugins">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2>Плагины</h2>
+      <p>Продуманный UX и чистый код</p>
+    </div>
+    <div class="plugins-grid">
+
+      <div class="plugin-card reveal">
+        <div class="icon underwear-skins">👕</div>
+        <h3>UnderwearSkins</h3>
+        <div class="author">Marat</div>
+        <div class="version">1.2.0</div>
+        <p>Менеджер нижнего белья с минималистичным интерфейсом, привязкой к слотам и поддержкой кастомных изображений.</p>
+        <div class="tags">
+          <span>Minimal</span>
+          <span>Underwear</span>
+          <span>Custom Images</span>
+        </div>
+      </div>
+
+      <div class="plugin-card reveal">
+        <div class="icon teleport">📍</div>
+        <h3>TeleportPlugin</h3>
+        <div class="author">YourName</div>
+        <div class="version">1.0.0</div>
+        <p>Система телепортации между игроками: /tpr, /tpa, /tpdeny. С поддержкой кулдауна, задержки и блокировки в бою.</p>
+        <div class="tags">
+          <span>TP</span>
+          <span>Teleport</span>
+          <span>Tpa</span>
+          <span>Cooldown</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="features-section" id="features">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2>Почему Romantic?</h2>
+      <p>Внимание к деталям в каждом плагине</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-item reveal">
+        <div class="num">01</div>
+        <h4>Современный UI</h4>
+        <p>Анимации, плавные переходы, продуманная сетка и акцентные цвета</p>
+      </div>
+      <div class="feature-item reveal">
+        <div class="num">02</div>
+        <h4>Чистый код</h4>
+        <p>Структура, читаемость, Oxide API — код, который легко поддерживать</p>
+      </div>
+      <div class="feature-item reveal">
+        <div class="num">03</div>
+        <h4>ImageLibrary</h4>
+        <p>Кеширование изображений, предзагрузка, поддержка PNG — всё для красивого UI</p>
+      </div>
+      <div class="feature-item reveal">
+        <div class="num">04</div>
+        <h4>Поддержка</h4>
+        <p>Актуальные версии, фиксы под последние билды Rust/Oxide</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <p>Romantic Plugins &mdash; Rust Oxide &copy; 2024</p>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
